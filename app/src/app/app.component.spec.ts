@@ -1,47 +1,51 @@
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { TestBed, async } from '@angular/core/testing';
+import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
+import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 
 import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 import { AppComponent } from './app.component';
+import { resolve, reject } from 'q';
 
 describe('AppComponent', () => {
 
-  let statusBarSpy, splashScreenSpy, platformReadySpy, platformSpy;
+  let fixture: ComponentFixture<AppComponent>;
+  let instance: AppComponent;
 
-  beforeEach(async(() => {
-    statusBarSpy = jasmine.createSpyObj('StatusBar', ['styleDefault']);
-    splashScreenSpy = jasmine.createSpyObj('SplashScreen', ['hide']);
-    platformReadySpy = Promise.resolve();
-    platformSpy = jasmine.createSpyObj('Platform', { ready: platformReadySpy });
+  const platformStub = {
+    ready: (): Promise<string> => new Promise<string>((resolve, reject) => resolve('ready'))
+  };
+  const statusBarStub = {
+    styleDefault: (): void => undefined
+  };
+  const splashScreenStub = {
+    hide: (): void => undefined
+  };
 
+  beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [AppComponent],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      providers: [
-        { provide: StatusBar, useValue: statusBarSpy },
-        { provide: SplashScreen, useValue: splashScreenSpy },
-        { provide: Platform, useValue: platformSpy },
+      schemas: [
+        NO_ERRORS_SCHEMA
       ],
+      declarations: [
+        AppComponent
+      ],
+      providers: [
+        {provide: Platform, useValue: platformStub},
+        {provide: StatusBar, useValue: statusBarStub},
+        {provide: SplashScreen, useValue: splashScreenStub}
+      ]
     }).compileComponents();
-  }));
-
-  it('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.debugElement.componentInstance;
-    expect(app).toBeTruthy();
   });
 
-  it('should initialize the app', async () => {
-    TestBed.createComponent(AppComponent);
-    expect(platformSpy.ready).toHaveBeenCalled();
-    await platformReadySpy;
-    expect(statusBarSpy.styleDefault).toHaveBeenCalled();
-    expect(splashScreenSpy.hide).toHaveBeenCalled();
+  beforeEach(() => {
+    fixture = TestBed.createComponent(AppComponent);
+    instance = fixture.debugElement.componentInstance;
   });
 
-  // TODO: add more tests!
+  it('should create the root page', () => {
+    expect(instance).toBeTruthy();
+  });
 
 });

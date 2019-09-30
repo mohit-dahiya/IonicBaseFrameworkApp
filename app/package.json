@@ -7,7 +7,9 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "test": "ng test",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:ci": "jest --runInBand",
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
@@ -25,6 +27,8 @@
     "@ionic-native/status-bar": "^5.0.0",
     "@ionic/angular": "^4.7.1",
     "core-js": "^2.5.4",
+    "jsdom": "^15.1.1",
+    "moment": "2.22.1",
     "rxjs": "~6.5.1",
     "tslib": "^1.9.0",
     "zone.js": "~0.9.1"
@@ -45,6 +49,11 @@
     "codelyzer": "^5.0.0",
     "jasmine-core": "~3.4.0",
     "jasmine-spec-reporter": "~4.2.1",
+    "@ionic/app-scripts": "3.2.1",
+    "@types/jest": "22.2.3",
+    "codecov": "2.2.0",
+    "jest": "22.4.3",
+    "jest-preset-angular": "5.2.2",
     "karma": "~4.1.0",
     "karma-chrome-launcher": "~2.2.0",
     "karma-coverage-istanbul-reporter": "~2.0.1",
@@ -54,6 +63,37 @@
     "ts-node": "~7.0.0",
     "tslint": "~5.15.0",
     "typescript": "~3.4.3"
+  },
+  "jest": {
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "**/*.ts",
+      "!**/src/*",
+      "!**/src/**/*.module.ts",
+      "!**/app/main.ts",
+      "!**/assets/**",
+      "!**/src/environments/environment.*"
+    ],
+    "coverageDirectory": "coverage",
+    "coverageReporters": [
+      "lcov",
+      "cobertura"
+    ],
+    "globals": {
+      "__TRANSFORM_HTML__": true,
+      "ts-jest": {
+        "tsConfigFile": "src/tsconfig.spec.json"
+      }
+    },
+    "preset": "jest-preset-angular",
+    "roots": [
+      "src"
+    ],
+    "setupTestFrameworkScriptFile": "<rootDir>/src/setupJest.ts",
+    "transformIgnorePatterns": [
+      "node_modules/(?!@ngrx|@ionic-native|@ionic)"
+    ],
+    "testURL": "http://localhost/"
   },
   "description": "An Ionic project"
 }
