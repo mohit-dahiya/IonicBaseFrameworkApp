@@ -54,7 +54,7 @@
     "codecov": "2.2.0",
     "jest": "22.4.3",
     "jest-preset-angular": "5.2.2",
-    "karma": "~4.1.0",
+    "karma": "~6.4.1",
     "karma-chrome-launcher": "~2.2.0",
     "karma-coverage-istanbul-reporter": "~2.0.1",
     "karma-jasmine": "~2.0.1",
